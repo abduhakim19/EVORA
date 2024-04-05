@@ -1,0 +1,78 @@
+﻿@model IEnumerable<API.DTOs.TransactionEvents.TransactionDetailDto>
+
+@{
+    ViewData["Title"] = "Histories";
+    Layout = "_DashboardUser";
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <h5 class="card-title fw-semibold mb-4">Table History Transaction</h5>
+            </div>
+            <div class="col-md-12">
+                <table id="example" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>@Html.DisplayNameFor(model => model.Package)</th>
+                            <th>@Html.DisplayNameFor(model => model.EventDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            int count = 1;
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @count
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Package)
+                                    </td>
+                                    <td>
+                                        @{
+                                            string customFormattedDate = item.EventDate.ToString("dd MMMM yyyy");
+                                        }
+                                        @customFormattedDate
+                                    </td>
+                                    <td>
+                                        @if (item.Status.ToString() == "Pending")
+                                        {
+                                            <span class="badge bg-light-warning text-warning rounded-pill">
+                                                <span class="round-8 bg-warning rounded-circle d-inline-block me-1"></span>pending
+                                            </span>
+                                        }
+                                        @if (item.Status.ToString() == "Approved")
+                                        {
+                                            <span class="badge bg-light-success text-success rounded-pill">
+                                                <span class="round-8 bg-success rounded-circle d-inline-block me-1"></span>approve
+                                            </span>
+                                        }
+                                        @if (item.Status.ToString() == "Canceled")
+                                        {
+                                            <span class="badge bg-light-danger text-danger rounded-pill">
+                                                <span class="round-8 bg-danger rounded-circle d-inline-block me-1"></span>canceled
+                                            </span>
+                                        }
+                                        @if (item.Status.ToString() == "Complete")
+                                        {
+                                            <span class="badge bg-light-success text-success rounded-pill">
+                                                <span class="round-8 bg-success rounded-circle d-inline-block me-1"></span>complete
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
