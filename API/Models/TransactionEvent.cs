@@ -18,6 +18,9 @@ namespace API.Models
         public DateTime EventDate { get; set; }
         [Column("status", TypeName = "int")]
         public StatusTransaction Status { get; set; }
+        [Column("image_path", TypeName = "nvarchar(max)")]
+        public string? imagePath { get; set; }
+
         [Column("transaction_date")]
         public DateTime TransactionDate { get; set; }
         [Column("created_date")]

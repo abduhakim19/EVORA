@@ -9,6 +9,7 @@ public class TransactionEventDto
     public string Invoice { get; set; }
     public DateTime EventDate { get; set; }
     public StatusTransaction Status { get; set; }
+    public string ImagePath { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime ModifiedDate { get; set; }
@@ -22,6 +23,7 @@ public class TransactionEventDto
         {
             Guid = transactionEvent.Guid,
             Invoice = transactionEvent.Invoice,
+            ImagePath = transactionEvent.imagePath,
             EventDate = transactionEvent.EventDate,
             Status = transactionEvent.Status,
             TransactionDate = transactionEvent.TransactionDate,
@@ -39,6 +41,7 @@ public class TransactionEventDto
         {
             Guid = transactionEventDto.Guid,
             Invoice = transactionEventDto.Invoice,
+            imagePath = transactionEventDto.ImagePath,
             EventDate = transactionEventDto.EventDate,
             Status = transactionEventDto.Status,
             TransactionDate = transactionEventDto.TransactionDate,

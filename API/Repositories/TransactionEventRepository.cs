@@ -116,6 +116,7 @@ public class TransactionEventRepository : GeneralRepository<TransactionEvent>, I
                                      Email = cust.Email,
                                      Price = pack.Price,
                                      Invoice = trans.Invoice,
+                                     ImagePath = trans.imagePath,
                                      Package = pack.Name,
                                      EventDate = trans.EventDate,
                                      TransactionDate = trans.TransactionDate,

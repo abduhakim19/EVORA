@@ -27,3 +27,12 @@
     background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)), url(./../../img/eureka-fest.jpg) left center no-repeat;
     background-size: cover;
 }
+.container-landing {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.container-contact {
+    margin-top: 5rem;
+    padding-bottom: 5rem;
+}

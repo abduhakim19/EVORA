@@ -1,0 +1,87 @@
+﻿@model API.DTOs.TransactionEvents.TransactionDetaillAllDto
+
+@{
+    Layout = "_LayoutNota";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h4>Nota Transaksi - Booking Event</h4>
+    </div>
+    <div class="col-8">
+        <img src="~/dashboard/assets/images/logos/evora2.png" width="120" alt="" />
+        <img style="margin-left: calc(-60px)" src="~/dashboard/assets/images/logos/evora3.png" width="125" alt="" />
+    </div>
+    <div class="col-4 align-items-end">
+        <h5 class="text-end mt-5" style="display: block;">Evora - Event Organizer</h5>
+    </div>
+</div>
+<div class="row bg-light border border-dark border-top-2 border-bottom-2 border-dashed">
+    <div class="col-12 py-3">
+        <table>
+            <tr>
+                <td>No. Faktur</td>
+                <td class="px-2"> : </td>
+                <td>@Html.DisplayFor(model => model.Invoice)</td>
+            </tr>
+            <tr>
+                <td>Tanggal</td>
+                <td class="px-2"> : </td>
+                <td>
+                    @Html.DisplayFor(model => model.EventDate)
+                </td>
+            </tr>
+            <tr>
+                <td>Kepada</td>
+                <td class="px-2"> : </td>
+                <td>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td class="px-2"> : </td>
+                <td><strong>@Html.DisplayFor(model => model.Status)</strong></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mt-4">
+        <h4>Detail Transaksi</h4>
+    </div>
+    <div class="col-12">
+        <table class="table table-bordered border-dark  bg-light">
+            <tr>
+                <td rowspan="3" style="width: 18%;">Alamat</td>
+                <td colspan="2">@Html.DisplayFor(model => model.Street)</td>
+            </tr>
+            <tr>
+                <td style="width: 40% !important">Kec. @Html.DisplayFor(model => model.District)</td>
+                <td>Kel. @Html.DisplayFor(model => model.SubDistrict)</td>
+            </tr>
+            <tr>
+                <td>Kab/Kota. @Html.DisplayFor(model => model.City)</td>
+                <td>Prov. @Html.DisplayFor(model => model.Province)</td>
+            </tr>
+            <tr>
+                <td>Paket Event</td>
+                <td colspan="2">@Html.DisplayFor(model => model.Package)</td>
+            </tr>
+            <tr>
+                <td>Tanggal Event</td>
+                <td colspan="2">@Html.DisplayFor(model => model.EventDate)</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td colspan="2">Rp. @Html.DisplayFor(model => model.Price),00</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.print();
+        window.onafterprint = window.close;
+    </script>
+}

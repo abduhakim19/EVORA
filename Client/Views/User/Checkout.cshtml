@@ -23,7 +23,6 @@
         <div class="card shadow-none border">
             <div class="card-body p-4">
                 <div class="wizard-content">
-                    <form action="#" class="tab-wizard wizard-circle">
                         <h6>Package</h6>
                         <section>
                             <div class="table-responsive">
@@ -42,7 +41,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-end border-bottom-0">
-                                                <h6 class="fs-4 fw-semibold mb-0">@Html.DisplayFor(model => model.Price)</h6>
+                                                <h6 class="fs-4 fw-semibold mb-0">Rp. @Html.DisplayFor(model => model.Price),00</h6>
                                             </td>
                                         </tr>
                                         <tr>
@@ -95,23 +94,68 @@
                             <!-- </div> -->
                         </section>
                         <!-- Step 3 -->
-                        <h6>Payment</h6>
-                        <section class="payment-method text-center">
-                            <div class="d-sm-flex align-items-center justify-content-end my-4 m-5">
-                                <a asp-action="Checkouts" asp-controller="User" asp-route-id="@Model.Guid" class="btn btn-success d-block mb-2 mb-sm-0">Approve Payment</a>
-                                <a asp-action="CancelPayment" asp-controller="User" class="btn btn-danger d-block ms-1">Cancel Payment</a>
+                        <h6>Payment (Transfer)</h6>
+                        <section>
+                            <!-- <div class="order-summary border rounded p-4 my-4"> -->
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between mb-4">
+                                    <p class="mb-0 fs-4 ms-5">BCA</p>
+                                    <h6 class="mb-0 fs-4 fw-semibold">5220304312</h6>
+                                </div>
+                                <div class="d-flex justify-content-between mb-4">
+                                    <p class="mb-0 fs-4 ms-5">Mandiri</p>
+                                    <h6 class="mb-0 fs-4 fw-semibold">5440306312</h6>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                        </section>
+                        <h6>Upload Bukti</h6>
+                    @if (Model.ImagePath == null)
+                    {
+                        @using (Html.BeginForm("Checkouts", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <form method="post">
+                                <section>
+                                    <!-- <div class="order-summary border rounded p-4 my-4"> -->
+                                    <div class="p-3">
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <input type="file" name="ImageFile" />
+                                            <input type="hidden" name="id" value="@Model.Guid" />
+                                        </div>
+                                    </div>
+                                    <!-- </div> -->
+                                </section>
+
+                                <section class="payment-method text-center">
+                                    <div class="d-sm-flex align-items-center justify-content-end my-4 m-5">
+                                        <button type="submit" class="btn btn-success d-block mb-2 mb-sm-0" required>Confirm Payment</button>
+                                        <!--<a asp-action="Checkouts" asp-controller="User" asp-route-id="@Model.Guid" class="btn btn-success d-block mb-2 mb-sm-0">Confirm Payment</a>-->
+                                        <a asp-action="CancelPayment" asp-controller="User" asp-route-id="@Model.Guid" class="btn btn-danger d-block ms-1">Cancel Payment</a>
+                                        <a asp-action="Nota" asp-controller="User" asp-route-id="@Model.Guid" class="btn btn-primary fw-bolder rounded-2 text-capitalize ms-1" target="_blank">
+                                            <span>
+                                                <i class="ti ti-printer"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </section>
+                            </form>
+                        }
+                    } else
+                    {
+                        <section>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between mb-4">
+                                    <p class="mb-0 fs-4 ms-5">Sudah Mengupload Bukti Transfer</p>
+                                </div>
                             </div>
                         </section>
-                    </form>
+                    }
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div>
-    
-</div>
-<div>
-    @Html.ActionLink("Edit", "", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index" asp-controller="User">Back to List</a>
 </div>

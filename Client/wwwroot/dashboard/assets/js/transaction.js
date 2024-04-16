@@ -1,4 +1,5 @@
 
+console.log("masuk");
 const baseUrl = "https://localhost:60107/api/transactionevent/";
 $(document).ready(() => {
 
@@ -122,6 +123,13 @@ $(document).ready(() => {
             $('#wPrice2').val(result.data.price);
             $('#wEventDate2').val(inputEventDate);
             $('#wStatusInput2').val(status);
+            console.log(result.data.imagePath, ' keren');
+            if (result.data.imagePath != null) {
+                $('#poto-container').html(`<img class="img-thumbnail" src="https://localhost:7074/${result.data.imagePath}" />`);
+            } else {
+                $('#poto-container').html(`<h6>Belum diupload</h6>`);
+            }
+            
 
         }).fail((error) => {
             console.log(error);
@@ -140,7 +148,7 @@ $(document).ready(() => {
             case 2:
                 status = `Pending`;
                 break;
-            case 2:
+            case 3:
                 status = `Approve`;
         }
         return status;

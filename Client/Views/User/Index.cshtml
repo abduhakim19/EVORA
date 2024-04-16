@@ -19,7 +19,7 @@
                 <div class="card-body py-3">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-sm-6">
-                            <h5 class="fw-semibold mb-9 fs-5">Welcome back Kafka!</h5>
+                            <h5 class="fw-semibold mb-9 fs-5">Welcome back @Context.Session.GetString("Name")!</h5>
                             <p class="mb-9">Here is your order status.</p>
                         </div>
                     </div>
@@ -34,49 +34,53 @@
                 <div class="card-body">
                     @foreach (var item in Model)
                     {
-                        <div class="card-header bg-body-secondary">
-                            <div class="row">
-                                @if (item.Status.ToString() == "Pending")
-                                {
-                                    <div class="col-6">
-                                        <span class="badge bg-light-warning text-warning rounded-pill">
-                                            <span class="round-8 bg-warning rounded-circle d-inline-block me-1"></span>pending
-                                        </span>
-                                    </div>
-                                    <div class="col-6 d-flex justify-content-end">
-                                        <button disabled class="btn btn-primary fs-2">Waiting..</button>
-                                    </div>
-                                }
-                                @if (item.Status.ToString() == "Approved")
-                                {
-                                    <div class="col-6">
-                                        <span class="badge bg-light-secondary text-success rounded-pill">
-                                            <span class="round-8 bg-success rounded-circle d-inline-block me-1"></span>approve
-                                        </span>
-                                    </div>
-                                    <div class="col-6 d-flex justify-content-end">
-                                        <a asp-action="Checkout" asp-controller="User" asp-route-id="@item.Guid" class="btn btn-danger fs-2">Check Out</a>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5 class="card-title" style="font-size: 30px;">@Html.DisplayFor(modelItem => item.Package)</h5>
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Price)</h5>
-                                </div>
-                                @{
-                                    string customFormattedDate = item.EventDate.ToString("dd MMMM yyyy");
-                                }
-                                <div class="col-6">
-                                    <h5 class="card-title" style="font-size: 13px;">Location:</h5>
-                                    <h4 class="fw-bold">@Html.DisplayFor(modelItem => item.Street), @Html.DisplayFor(modelItem => item.City)</h4>
-                                    <h5 class="card-title" style="font-size: 13px;">Date Event:</h5>
-                                    <h4 class="fw-bold">@customFormattedDate</h4>
+                        var status = item.Status.ToString();
+                        @if (status == "Pending" || status == "Approved")
+                        {
+                            <div class="card-header bg-body-secondary">
+                                <div class="row">
+                                    @if (item.Status.ToString() == "Pending")
+                                    {
+                                        <div class="col-6">
+                                            <span class="badge bg-light-warning text-warning rounded-pill">
+                                                <span class="round-8 bg-warning rounded-circle d-inline-block me-1"></span>pending
+                                            </span>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-end">
+                                            <button disabled class="btn btn-primary fs-2">Waiting..</button>
+                                        </div>
+                                    }
+                                    @if (item.Status.ToString() == "Approved")
+                                    {
+                                        <div class="col-6">
+                                            <span class="badge bg-light-secondary text-success rounded-pill">
+                                                <span class="round-8 bg-success rounded-circle d-inline-block me-1"></span>approve
+                                            </span>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-end">
+                                            <a asp-action="Checkout" asp-controller="User" asp-route-id="@item.Guid" class="btn btn-danger fs-2">Check Out</a>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                        </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h5 class="card-title" style="font-size: 30px;">@Html.DisplayFor(modelItem => item.Package)</h5>
+                                        <h5 class="card-title">Rp. @string.Format("{0:#,0}", item.Price),00</h5>
+                                    </div>
+                                    @{
+                                        string customFormattedDate = item.EventDate.ToString("dd MMMM yyyy");
+                                    }
+                                    <div class="col-6">
+                                        <h5 class="card-title" style="font-size: 13px;">Location:</h5>
+                                        <h4 class="fw-bold">@Html.DisplayFor(modelItem => item.Street), @Html.DisplayFor(modelItem => item.City)</h4>
+                                        <h5 class="card-title" style="font-size: 13px;">Date Event:</h5>
+                                        <h4 class="fw-bold">@customFormattedDate</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -98,7 +102,7 @@ else
                 <div class="card-body">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-sm-6">
-                            <h5 class="fw-semibold mb-9 fs-5">Welcome back Kafka!</h5>
+                            <h5 class="fw-semibold mb-9 fs-5">Welcome back @Context.Session.GetString("Name")!</h5>
                             <p class="mb-9">You haven't ordered anything yet.</p>
                             <a asp-action="Order" asp-controller="User" class="btn btn-primary fs-2">Order Now</a>
                         </div>

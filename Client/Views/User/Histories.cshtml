@@ -15,9 +15,10 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>@Html.DisplayNameFor(model => model.Package)</th>
-                            <th>@Html.DisplayNameFor(model => model.EventDate)</th>
-                            <th>@Html.DisplayNameFor(model => model.Status)</th>
+                            <th>Nama Paket</th>
+                            <th>Tanggal Event</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,6 +67,13 @@
                                             </span>
                                         }
                                     </td>
+                                    <td>
+                                        <a asp-action="Nota" asp-controller="User" asp-route-id="@item.Guid" class="btn btn-md btn-primary fw-bolder rounded-2 text-capitalize"  target="_blank">
+                                            <span>
+                                                <i class="ti ti-printer"></i>
+                                            </span>
+                                        </a>
+                                    </td>
                                 </tr>
                                 count++;
                             }
@@ -76,3 +84,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/js/history.js" asp-append-version="true"></script>
+}

@@ -45,7 +45,6 @@
     $('.btn-play').click(function () {
         $videoSrc = $(this).data("src");
     });
-    console.log($videoSrc);
     $('#videoModal').on('shown.bs.modal', function (e) {
         $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
     })
@@ -83,13 +82,12 @@
         }
     });
 
-    const navHeight = $('.nav-container').outerHeight(true);
-    console.log(navHeight);
-    $('#about').css("margin-top", "-" + (navHeight - 25) + "px");
-    $('#why').css("margin-top", "-" + navHeight + "px");
-    $('#gallery').css("margin-top", "-" + navHeight + "px");
-    $('#pricing').css("margin-top", "-" + navHeight + "px");
-    $('#contact').css("margin-top", "-" + navHeight + "px");
+    //const navHeight = $('.nav-container').outerHeight(true);
+    //$('#about').css("margin-top", "-" + (navHeight - 25) + "px");
+    //$('#why').css("margin-top", "-" + navHeight + "px");
+    //$('#gallery').css("margin-top", "-" + navHeight + "px");
+    //$('#pricing').css("margin-top", "-" + navHeight + "px");
+    //$('#contact').css("margin-top", "-" + navHeight + "px");
 
 
     $.ajax({
@@ -99,8 +97,6 @@
             'Content-Type': 'application/json'
         }
     }).done((result) => {
-        console.log(result);
-        console.log(result.data);
         let packageEl = "";
         if (result.data.length > 0) {
             result.data.forEach(data => {

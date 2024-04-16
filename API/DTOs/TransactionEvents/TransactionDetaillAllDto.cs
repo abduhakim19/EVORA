@@ -1,4 +1,5 @@
 ﻿using API.Utilities.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs.TransactionEvents
 {
@@ -14,8 +15,10 @@ namespace API.DTOs.TransactionEvents
         //public Guid? AccountGuid { get; set; }
         //Package
         public string? Package { get; set; }
+        public string ImagePath { get; set; }
         //public int? Capacity { get; set; }
         //public string? Description { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,0}")]
         public decimal? Price { get; set; }
         //Location
         public string? Street { get; set; }
@@ -26,6 +29,7 @@ namespace API.DTOs.TransactionEvents
         // Transaction
         public Guid? Guid { get; set; }
         public string Invoice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime EventDate { get; set; }
         public StatusTransaction Status { get; set; }
         public DateTime TransactionDate { get; set; }

@@ -1,0 +1,21 @@
+﻿
+/* style sheet for "A4" printing */
+@media print and (width: 21cm) and (height: 29.7cm) {
+    @page {
+        margin: 3cm;
+    }
+}
+
+/* style sheet for "letter" printing */
+@media print and (width: 8.5in) and (height: 11in) {
+    @page {
+        margin: 1in;
+    }
+}
+
+@page {
+    size: A4 potrait;
+    margin: 2%;
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}

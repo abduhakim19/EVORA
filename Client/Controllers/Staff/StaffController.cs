@@ -1,27 +1,36 @@
-﻿using API.DTOs.TransactionEvents;
+﻿using API.Contracts;
+using API.DTOs.TransactionEvents;
 using API.Utilities.Enums;
 using Client.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using System.Data;
 
 namespace Client.Controllers.Staff
 {
     [Authorize(Roles = "Staff,Admin")]
     public class StaffController : Controller
     {
-        private readonly ITransactionRepos transactionRepository;
+        private readonly ITransactionRepos _transactionRepository;
+        private readonly IAccountRepos _accountRepository;
 
-        public StaffController(ITransactionRepos transactionRepository)
+        public StaffController(ITransactionRepos transactionRepository, IAccountRepos accountRepository)
         {
-            this.transactionRepository = transactionRepository;
+            this._transactionRepository = transactionRepository;
+            this._accountRepository = accountRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var getTransaction = await transactionRepository.DetailAll();
+            string jwtToken = HttpContext.Session.GetString("JWToken");
+            var getTransaction = await _transactionRepository.DetailAll();
+            var dataUser = await _accountRepository.GetClaims(jwtToken);
             var cekData = getTransaction.Data;
             if (getTransaction.Status == "OK" && cekData != null)
             {
+                HttpContext.Session.SetString("Name", dataUser.Data.Name);
+                HttpContext.Session.SetString("Email", dataUser.Data.Email);
                 return View(cekData);
             }
             else
@@ -37,7 +46,7 @@ namespace Client.Controllers.Staff
                 Status = (StatusTransaction)3,
                 Guid = id
             };
-            var updateTransaction = await transactionRepository.ChangeStatus(updateStatus);
+            var updateTransaction = await _transactionRepository.ChangeStatus(updateStatus);
             var cekData = updateTransaction.Data;
             return RedirectToAction(nameof(Index));
         }
@@ -48,7 +57,7 @@ namespace Client.Controllers.Staff
                 Status = 0,
                 Guid = id
             };
-            var updateTransaction = await transactionRepository.ChangeStatus(updateStatusDec);
+            var updateTransaction = await _transactionRepository.ChangeStatus(updateStatusDec);
             var cekData = updateTransaction.Data;
             return RedirectToAction(nameof(Index));
         }
@@ -59,7 +68,7 @@ namespace Client.Controllers.Staff
         [Route("events/get")]
         public async Task<IActionResult> GetEvents()
         {
-            var getTransaction = await transactionRepository.DetailAll();
+            var getTransaction = await _transactionRepository.DetailAll();
             var cekData = getTransaction.Data;
             var eventList = cekData.Select(e => new
             {

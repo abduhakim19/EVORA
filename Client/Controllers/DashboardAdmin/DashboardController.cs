@@ -1,4 +1,6 @@
-﻿using Client.Models;
+﻿
+using Client.Contracts;
+using Client.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,15 +11,32 @@ namespace Client.Controllers.DashboardAdmin
     public class DashboardController : Controller
     {
         private readonly ILogger<DashboardController> _logger;
+        private readonly IAccountRepos _accountRepository;
+        private readonly ITransactionRepos _transactionRepository;
 
-        public DashboardController(ILogger<DashboardController> logger)
+        public DashboardController(ILogger<DashboardController> logger, IAccountRepos accountRepository, ITransactionRepos transactionRepository)
         {
             _logger = logger;
+            _accountRepository = accountRepository;
+            _transactionRepository = transactionRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            string jwtToken = HttpContext.Session.GetString("JWToken");
+            var getTransaction = await _transactionRepository.DetailAll();
+            var dataUser = await _accountRepository.GetClaims(jwtToken);
+            var cekData = getTransaction.Data;
+            if (getTransaction.Status == "OK" && cekData != null)
+            {
+                HttpContext.Session.SetString("Name", dataUser.Data.Name);
+                HttpContext.Session.SetString("Email", dataUser.Data.Email);
+                return View(cekData);
+            }
+            else
+            {
+                return View();
+            }
         }
         public IActionResult Employees()
         {

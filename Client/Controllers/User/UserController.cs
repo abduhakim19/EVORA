@@ -4,6 +4,8 @@ using Client.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using API.Utilities.Enums;
+using System.Drawing;
+using System.IO;
 
 namespace Client.Controllers.User
 {
@@ -120,11 +122,20 @@ namespace Client.Controllers.User
             }
             return View();
         }
-        public async Task<IActionResult> Checkouts(Guid id)
+        [HttpPost]
+        public async Task<IActionResult> Checkouts(IFormFile ImageFile, Guid id)
         {
+            string fileName = Path.GetFileNameWithoutExtension(ImageFile.FileName);
+            string extension = Path.GetExtension(ImageFile.FileName);
+            fileName = fileName + DateTime.Now.ToString("yymmssff") + extension;
+            string imagePath = Path.Combine("wwwroot/Image/", fileName);
+            using (FileStream stream = new FileStream(imagePath, FileMode.Create))
+            {
+                ImageFile.CopyTo(stream);
+            }
             var getTransaction = await _transactionRepository.TransactionbyGuid(id);
             var datatransaction = getTransaction.Data;
-            datatransaction.Status = (StatusTransaction)1;
+            datatransaction.ImagePath = Path.Combine("Image/", fileName); ;
             var toUpdateTransaction = await _transactionRepository.ApprovePayment(id, datatransaction);
             if (toUpdateTransaction != null)
             {
@@ -134,15 +145,14 @@ namespace Client.Controllers.User
         }
         public async Task<IActionResult> CancelPayment(Guid id)
         {
-            var getTransaction = await _transactionRepository.TransactionbyGuid(id);
-            var datatransaction = getTransaction.Data;
-            datatransaction.Status = (StatusTransaction)0;
-            var toUpdateTransaction = await _transactionRepository.ApprovePayment(id, datatransaction);
-            if (toUpdateTransaction != null)
+            var updateStatus = new ChangeTransactionStatusDto
             {
-                return RedirectToAction(nameof(Index));
-            }
-            return View();
+                Status = StatusTransaction.Canceled,
+                Guid = id
+            };
+            var updateTransaction = await _transactionRepository.ChangeStatus(updateStatus);
+            var cekData = updateTransaction.Data;
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Histories()
         {
@@ -159,6 +169,17 @@ namespace Client.Controllers.User
                     var data = getTransaction.Result.Data;
                     return View(data);
                 }
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> Nota(Guid id)
+        {
+            var getTransaction = await _transactionRepository.DetailbyGuid(id);
+            if (getTransaction != null)
+            {
+                var data = getTransaction.Data;
+                return View(data);
             }
             return View();
         }
